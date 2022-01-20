@@ -1,0 +1,5 @@
+#sublime files
+*.sublime-workspace
+
+#back-ups made by code editor in directory
+**/*~
