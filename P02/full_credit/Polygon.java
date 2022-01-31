@@ -30,6 +30,8 @@ public class Polygon{
 			myPolygon.addSide(length);
 		}
 
-		System.out.printf("Perimeter of %d-sided polygon is %.2f\n", myPolygon.sides, myPolygon.perimeter);
+		System.out.printf("Perimeter of %d-sided polygon is %.2f\n", 
+			myPolygon.sides, 
+			myPolygon.perimeter);
 	}
 }

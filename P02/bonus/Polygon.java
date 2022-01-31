@@ -20,8 +20,7 @@ public class Polygon{
 
 	public double getPerimeter() { 
 		double perimeter = 0;
-		for (int i = 0; i < lengths.length; i++) { 
-			//System.out.println(lengths[i]);
+		for (int i = 0; i < lengths.length; i++) {
 			perimeter += lengths[i]; 
 		}
 
