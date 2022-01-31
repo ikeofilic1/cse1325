@@ -31,7 +31,7 @@ public class Polygon{
 		}
 
 		System.out.printf("Perimeter of %d-sided polygon is %.2f\n", 
-			myPolygon.sides, 
-			myPolygon.perimeter);
+			myPolygon.getSides(), 
+			myPolygon.getPerimeter());
 	}
 }
