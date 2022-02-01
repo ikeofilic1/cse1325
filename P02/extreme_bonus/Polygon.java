@@ -1,17 +1,14 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Polygon{
 
-	private int sides;
-	private double[] lengths = new double[0];
+	private int sides = 0;
+	private ArrayList<Double> lengths = new ArrayList<Double>();
 
-	public void addSide(double length){
+	public void addSide(Double length){
 		sides++;
-		double[] temp = new double[sides];
-		System.arraycopy(lengths, 0, temp, 0, sides - 1);
-
-		lengths = temp;
-		lengths[sides - 1] = length;
+		lengths.add(length);
 	}
 
 	public int getSides() { return sides; }
@@ -20,18 +17,17 @@ public class Polygon{
 
 	public double getPerimeter() { 
 		double perimeter = 0;
-		for (int i = 0; i < lengths.length; i++) { 
-			//System.out.println(lengths[i]);
-			perimeter += lengths[i]; 
-		}
 
+		for (Double length : lengths) { 
+			perimeter += length; 
+		}
 		return perimeter; 
 	}
 
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		Polygon myPolygon = new Polygon();
-		double length;
+		Double length;
 
 		while (true){
 			System.out.print("Side length (0 when done): ");
@@ -53,3 +49,10 @@ public class Polygon{
 			myPolygon.getArea(apothem));
 	}
 }
+
+/*
+Using ArrayLists is better since they allow for an array without a specific size. 
+We need an array without a definite size since we dont know how many sides the user wants the polygon to be.
+Since ArrayLists do not accept non-objects, I had to change the user input variable from a double type to a Double type in the main method.
+This is the only change I made in the main method since Double and double are interchangeable in Java (most times).
+*/
