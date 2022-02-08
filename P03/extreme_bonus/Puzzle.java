@@ -1,7 +1,7 @@
 public class Puzzle {
 	private Word solution;
 	private boolean solved;	
-	public boolean isSolved() { return solved }
+	public boolean isSolved() { return solved; }
 
 	public Puzzle(String solution) { 
 		this.solution = new Word(solution); 
