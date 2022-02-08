@@ -4,21 +4,18 @@ public class Puzzle {
 	public boolean isSolved() { return solved; }
 
 	public Puzzle(String solution) { 
-		this.solution = new Word(solution);
-		System.out.println("DEBUG " + solution); 
+		this.solution = new Word(solution); 
 		solved = false;
 	}
 
 	public String compareGuess(String guess) {
-	    // For actual and check, letters will be replaced with spaces when found
-	    Word actual = new Word(solution.toString()); // Solution to the puzzle
+	    Word actual = new Word(solution.toString());
 	    Word check = new Word(guess);                // Guess at the solution
-	    // For result, uppercase for correct, lower if in wrong position, '.' wrong
 	    Word result = new Word(".....");             // The result to be returned
 
 	    // Check for correct letter in correct position
 	    for(int i=0; i<5; ++i) {
-	        if(check.charAt(i) == actual.charAt(i)) {  // Correct letter!
+	        if(check.charAt(i) == actual.charAt(i)) {
 	            result.setCharAt(Character.toUpperCase(solution.charAt(i)), i);
 	            check.setCharAt(' ', i);
 	            actual.setCharAt(' ', i);

@@ -19,7 +19,7 @@ public class Word{
 	}
 
 	public char charAt(int position){
-		if (position < 0 || position > 4) 
+		if (position < 0 || position > 4)  
 			throw new IllegalArgumentException("Invalid index. ");
 		return letters[position];
 	}

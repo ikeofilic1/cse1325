@@ -17,13 +17,14 @@ public class Puzzle {
 
 	    // Check for correct letter in correct position
 	    for(int i=0; i<5; ++i) {
-    	   if(check.charAt(i) == actual.charAt(i)) {  // Correct letter!
+	        if(check.charAt(i) == actual.charAt(i)) {  // Correct letter!
 	            result.setCharAt(Character.toUpperCase(solution.charAt(i)), i);
 	            check.setCharAt(' ', i);
 	            actual.setCharAt(' ', i);
-    	    }
+	        }
 	    }
 	    
+	    // Determine if guess was right
 	    solved = (check.toString().equals("     "));
 	    
 	    // Check for correct letter in incorrect position
