@@ -3,11 +3,11 @@ import java.util.Scanner;
 public class Quint {
 
 	public enum ColorCode {
-		RED_BACKGROUND("\u001B[41m"),
-		GREEN_BACKGROUND("\u001B[42m"),
-		YELLOW_BACKGROUND	("\u001B[43m"),
-		GREY_BACKGROUND("\u001B[100m"),
-		RESET("\u001B[0m");
+		RED_BACKGROUND   ("\u001B[41m"),
+		GREEN_BACKGROUND ("\u001B[42m"),
+		YELLOW_BACKGROUND("\u001B[43m"),
+		GREY_BACKGROUND  ("\u001B[100m"),
+		RESET            ("\u001B[0m");
 
 		private final String ansiCode;
 
