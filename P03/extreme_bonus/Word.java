@@ -3,41 +3,41 @@ import java.util.regex.Pattern;
 
 public class Word{		
 	private char[] letters =  new char[5];
-	Pattern pattern = Pattern.compile("([A-Z]+|[.]+|[ ]+)+");
-	Matcher m;
+	
+	public void validateChar(char c){
+		Pattern pattern = Pattern.compile("[[A-Z]?[.]?[ ]?]");
+		Matcher m = pattern.matcher(Character.toString(Character.toUpperCase(c)));
+		if (!m.matches()) 
+			throw new IllegalArgumentException("Invalid character: \"" +
+			 Character.toString(c) + "\". ");
+	}
+
+	public void validatePos(int position) {		
+		if (position < 0 || position > 4)  
+			throw new IllegalArgumentException("Invalid index. ");
+	}
 
 	public Word(String word){
 		if (word.length() != 5) 
 			throw new IllegalArgumentException("Not 5 letters. ");
+		
+		for(int i = 0; i < 5; i++)
+			validateChar(word.charAt(i));
 
-		m = pattern.matcher(word);
-		if (!m.matches()) 
-			throw new IllegalArgumentException("A character in the word \"" + word + "\" is not a letter. ");
-
-		for(int i = 0; i < letters.length; i++)
-			letters[i] = word.charAt(i);
+		letters = word.toUpperCase().toCharArray();
 	}
 
 	public char charAt(int position){
-		if (position < 0 || position > 4) 
-			throw new IllegalArgumentException("Invalid index. ");
+		validatePos(position);
 		return letters[position];
 	}
 
 	public void setCharAt(char c, int position){
-		if (position < 0 || position > 4) 
-			throw new IllegalArgumentException("Invalid index. ");
-
-		if (c != '.' && c != ' ' && !(Character.isLetter(c))) 
-			throw new IllegalArgumentException("Cannot set invalid char '" + Character.toString(c) + "'. ");
-
+		validatePos(position);
+		validateChar(c);
 		letters[position] = c;
 	} 
-
 
 	@Override
 	public String toString(){ return new String(letters); }	
 }
-
-//I couldn't make the data validation for setCharAt to check for only uppercase since we purposely 
-//set the char in result to a lowercase of itself (to show a letter in the word but not in the right position)
