@@ -12,13 +12,14 @@ public class Substitution implements Cypher{
         char[] temp = key.toCharArray();
         Arrays.sort(temp);
 
-        if (!("ABCDEFGHIJKLMNOPQRSTUVWXYZ".equals(new String(temp))))
+        if (!("ABCDEFGHIJKLMNOPQRSTUVWXYZ".equals(new String(temp)))) 
             throw new IllegalArgumentException("Invalid key: key must contain all letters of the alphabet");
 
         encryptKey = key.toCharArray();
+        System.out.print(key);
 
         decryptKey = encrypt(key).toCharArray();
-
+        System.out.println(" " + new String(decryptKey));
     }
 
     protected String substitute(char[] key, String unsubstituted) {
@@ -26,7 +27,7 @@ public class Substitution implements Cypher{
 
         for (int i = 0; i < substituted.length; i++) {
             if (Character.isLetter(substituted[i]))
-                substituted[i] = key[substituted[i] - 'A'];
+                substituted[i] = key[(substituted[i] - 'A')];
 
         }
         return new String(substituted);
