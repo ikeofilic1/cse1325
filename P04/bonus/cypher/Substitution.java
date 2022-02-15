@@ -1,9 +1,26 @@
+package cypher;
 import java.util.Arrays;
+
+/**
+ * Implements a simple substitution cypher
+ * 
+ * @author              Ikechukwuka Ofili
+ * @since               1.0
+ * @version             1.0
+ * @license.agreement   GNU General Public License 3.0
+ * 
+ */
 
 public class Substitution implements Cypher{
     protected char[] encryptKey = new char[26];
     protected char[] decryptKey = new char[26];
 
+    /**
+     * Creates an instance of a substitution cypher for the specified key
+     * 
+     * @param key   The key for the substitution cypher
+     * @since       1.0 
+     * */
     public Substitution(String key) {        
         key = key.toUpperCase();
         char[] temp = key.toCharArray();
@@ -32,11 +49,19 @@ public class Substitution implements Cypher{
         }
         return new String(substituted);
     }
-
+    /**
+     * Encrypts a string using a substitution cypher and the specified key
+     * 
+     * @since               1.0
+     * */
     public String encrypt(String unencrypted) {
         return substitute(encryptKey, unencrypted);
     }
-
+    /**
+     * Decrypts a string using a substitution cypher and the specified key
+     * 
+     * @since               1.0
+     * */
     public String decrypt(String encrypted) {
         return substitute(decryptKey, encrypted);
     }

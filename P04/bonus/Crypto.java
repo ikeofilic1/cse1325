@@ -1,7 +1,9 @@
 import java.util.Scanner;
+import cypher.Rot13;
+import cypher.Substitution;
+import cypher.Cypher;
 
 public class Crypto {
-
     public static void main(String[] args) {
         String key = "";
         Cypher cypher = null;
@@ -72,7 +74,6 @@ public class Crypto {
             } while (badOption);
         }
     }
-
     public static String randomKey() {
         char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};        
         char[] key = new char[26];
