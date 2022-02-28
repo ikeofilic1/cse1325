@@ -1,6 +1,6 @@
 package shelter;
 public enum CatBreed {
-	CESKY("cesky terrier"), PULI("puli"), POMERANIAN("pomeranian");
+	ABYSSINIAN("abyssinian"), CHARTREUX("chartreux"), RAGAMUFFIN("ragamuffin");
 
 	private final String toString;
 	private CatBreed(String x){ toString = x;} 
