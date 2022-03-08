@@ -11,4 +11,8 @@ public class Dog extends Animal {
 	public String family() { return "dog";}
 	@Override
 	public String breed() { return ""+breed;}
-}				
+	@Override
+	public String toString(){
+		return super.toString() + (super.getAge() < 2 ?"pup":"dog") + ").\n";
+	}
+}

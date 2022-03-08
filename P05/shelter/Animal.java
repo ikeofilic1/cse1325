@@ -13,9 +13,11 @@ public abstract class Animal {
 
 	public abstract String family();
 	public abstract String breed();
+	public String getName() {return name;}
+	public int getAge() {return age;}
 
 	@Override
 	public String toString(){
-		return name+" ("+age+" year old "+gender+" "+breed()+" "+family()+").\n";
+		return name+" ("+((age >= 1)?age:"<1")+" year old "+gender+" "+breed()+" ";
 	}
 }

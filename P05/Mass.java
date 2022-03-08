@@ -13,7 +13,7 @@ public class Mass {
 			String dogName = "Dog_"+i, catName = "Cat_"+i;
 			Gender gender = genders[(int)(Math.random()*genders.length)];
 
-			coin = (int)(Math.random() + 0.57);
+			coin = (int)(Math.random() + 0.56);
 			if (coin == 0) {
 				int age = (int)(12*Math.random());
 				DogBreed breed = dbreeds[(int)(dbreeds.length*Math.random())];
