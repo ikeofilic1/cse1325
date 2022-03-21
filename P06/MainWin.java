@@ -119,11 +119,11 @@ public class MainWin extends JFrame {
 
         add(toolbar, BorderLayout.PAGE_START);
         add(data, BorderLayout.CENTER);
+        //add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.SOUTH);
         add(msg, BorderLayout.PAGE_END);
-        add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.SOUTH);
         msg.setVisible(false);
 
-        setSize(1080, 600);
+        setSize(1020, 550);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -249,7 +249,7 @@ public class MainWin extends JFrame {
         ok.addActionListener(event -> about.setVisible(false));
         panel.add(ok);
         
-        about.setSize(1000,605);
+        about.setSize(870,640);
         about.add(panel);
         about.setVisible(true);
     }
