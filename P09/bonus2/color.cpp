@@ -28,21 +28,24 @@ std::ostream& operator<<(std::ostream& ost, Color color) {
 }
 
 int main(int argc, char const **argv) {
-    Color reset{};
-    Color green   {7,230,7};
-    Color yellow{254,221,0};
-    Color pink {214,37,152};
+    if (argc == 1) {
+        std::cout << "usage: " << argv[0] << " <filename>\n";
+        return -1;
+    }
 
-    std::cout << green  << "Fluorescent green" << reset << std::endl;
-    std::cout << yellow << "Banana yellow"     << reset << std::endl;
-    std::cout << pink   << "Deeeeep pink"      << reset << std::endl;
+    std::ifstream file{argv[1]};
 
-    int r,g,b;
-    std::cout << "Enter red, green, and blue ints: ";
-    std::cin >> r >> g >> b;
+    if (!file) {
+        std::cout << "Unable to open file \"" << argv[1] << "\"\n";
+        return 2;
+    }
 
-    Color color{r,g,b};
-    std::cout << color << color.to_string() << reset << std::endl;
-
+    int r{20},g{110},b{50};
+    for(std::string line; getline(file, line); r %= 256, g %= 256, b %= 256) {
+        Color color{r,g,b};
+        std::cout << color.colorize(line) << std::endl;
+        r += 14; g += 5; b += 12;
+    }
+    
     return 0;
 }
