@@ -11,7 +11,7 @@ public class Shelter {
 
 	public Shelter(String name) {
 		this.name = name;
-		this.filename = "untitled.mass";
+		this.filename = "";
 		animals = new ArrayList<>();
 	}
 	public Shelter(BufferedReader br) throws IOException{
@@ -32,8 +32,7 @@ public class Shelter {
 	}
 	public void save(BufferedWriter bw) throws IOException{
 		bw.write(name + '\n' + filename + '\n' + numAnimals() + '\n');
-		for (Animal a : animals)
-			a.save(bw);
+		for (Animal a : animals) a.save(bw);
 	}
 	
 	public int numAnimals() { return animals.size();}

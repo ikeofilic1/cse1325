@@ -52,7 +52,7 @@ public class MainWin extends JFrame {
     public MainWin(String title) {
         super(title);
         isSaved = true;
-        shelter = new Shelter("MAS");
+        shelter = new Shelter("M.A.S.");
         shelter.setFilename("");
         data = new JLabel();        
         data.setVerticalAlignment(JLabel.TOP);
@@ -70,6 +70,11 @@ public class MainWin extends JFrame {
         JMenu     animal     = new JMenu("Animal");
         JMenuItem newDog     = new JMenuItem("New Dog");
         JMenuItem newCat     = new JMenuItem("New Cat");
+        JMenuItem newBunny   = new JMenuItem("New Bunny");
+        JMenuItem animList   = new JMenuItem("List Available");
+        JMenu     client     = new JMenu("Client");
+        JMenuItem newCli     = new JMenuItem("New");
+        JMenuItem cliList    = new JMenuItem("List");       
         JMenu     help       = new JMenu("Help");
         JMenuItem about      = new JMenuItem("About");
         
@@ -89,9 +94,14 @@ public class MainWin extends JFrame {
         file.add(quit);
         animal.add(newDog);
         animal.add(newCat);
+        animal.add(newBunny);
+        animal.add(animList);
+        client.add(newCli);
+        client.add(cliList);
         help.add(about);        
         menubar.add(file);
         menubar.add(animal);
+        menubar.add(client);
         menubar.add(help);
         setJMenuBar(menubar);
 
@@ -288,6 +298,9 @@ public class MainWin extends JFrame {
     }
 
     public void onSaveShelterClick() {
+        if (shelter.getFilename().equals("")) onSaveShelterAsClick();
+        if (shelter.getFilename().equals("")) return;
+
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(shelter.getFilename()))) {
             shelter.save(bw);
             isSaved = true;
@@ -299,7 +312,11 @@ public class MainWin extends JFrame {
     }
 
     public void onSaveShelterAsClick() {
-        File filename = new File(shelter.getFilename());        
+        File filename;
+        if (!shelter.getFilename().equals(""))
+             filename = new File(shelter.getFilename());
+        else filename = new File(System.getProperty("user.dir") + "/untitled.mass");
+
         final JFileChooser fc = new JFileChooser(filename) {
             @Override
             public void approveSelection() {
@@ -327,12 +344,12 @@ public class MainWin extends JFrame {
         fc.setFileFilter(massFiles);
         fc.setSelectedFile(filename); 
         
-        int result = fc.showsafeToExit(this);        
+        int result = fc.showSaveDialog(this);        
         if (result == JFileChooser.APPROVE_OPTION) {
             shelter.setFilename(fc.getSelectedFile().getAbsolutePath());
             onSaveShelterClick();
-            /*if(filename.getAbsolutePath() != shelter.getFilename())
-                filename.delete();*/         
+            if(!filename.getAbsolutePath().equals(shelter.getFilename()))
+                filename.delete();
         }
     }
 
@@ -387,5 +404,5 @@ public class MainWin extends JFrame {
     }
 }
 
-//*update filename to use user.dir, newAnimalClick, onsaveas savedas, about, updatedis
-//cat/dog save, delete file when update untitled, abspath vs getprop vs shelter.filename
+// newAnimalClick, about, updatedis
+//cat/dog save.
