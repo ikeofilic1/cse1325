@@ -23,15 +23,19 @@ import javax.swing.JSeparator;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JFileChooser;
+import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import shelter.Shelter;
 import shelter.DogBreed;
 import shelter.CatBreed;
+import shelter.BunnyBreed;
 import shelter.Animal;
 import shelter.Dog;
 import shelter.Cat;
+import shelter.Bunny;
+import shelter.Client;
 import shelter.Gender;
 
 import java.io.File;
@@ -43,11 +47,11 @@ import java.io.BufferedWriter;
 import javax.imageio.ImageIO;
 
 
-
 public class MainWin extends JFrame {
     private Shelter shelter;
     private JLabel data;
     private boolean isSaved;
+    private enum Dataview {ANIMALS, CLIENTS}
 
     public MainWin(String title) {
         super(title);
@@ -77,15 +81,24 @@ public class MainWin extends JFrame {
         JMenuItem cliList    = new JMenuItem("List");       
         JMenu     help       = new JMenu("Help");
         JMenuItem about      = new JMenuItem("About");
+
+        //Animal icons (for use later)
+        ImageIcon dogIcon   = new ImageIcon("images/noun-jack-russell-terrier.png");
+        ImageIcon catIcon   = new ImageIcon("images/noun-cat.png");
+        ImageIcon bunnyIcon = new ImageIcon("images/noun-bunny.png");
         
-        newDog.addActionListener(event -> onNewDogClick());
-        newCat.addActionListener(event -> onNewCatClick());
-        quit  .addActionListener(event -> onQuitClick());
-        about. addActionListener(event -> onAboutClick());
-        open.  addActionListener(event -> onOpenShelterClick());
-        newF.  addActionListener(event -> onNewShelterClick());
-        save.  addActionListener(event -> onSaveShelterClick());
-        saveAs.addActionListener(event -> onSaveShelterAsClick());
+        newDog  .addActionListener(event -> onNewDogClick());
+        newCat  .addActionListener(event -> onNewCatClick());
+        newBunny.addActionListener(event -> onNewBunnyClick());
+        newCli  .addActionListener(event -> onNewClientClick());
+        quit    .addActionListener(event -> onQuitClick());
+        about   .addActionListener(event -> onAboutClick());
+        open    .addActionListener(event -> onOpenShelterClick());
+        newF    .addActionListener(event -> onNewShelterClick());
+        save    .addActionListener(event -> onSaveShelterClick());
+        saveAs  .addActionListener(event -> onSaveShelterAsClick());
+        animList.addActionListener(event -> updateDisplay(Dataview.ANIMALS));
+        cliList .addActionListener(event -> updateDisplay(Dataview.CLIENTS));
         
         file.add(open);
         file.add(newF);
@@ -139,39 +152,95 @@ public class MainWin extends JFrame {
           saveAsB.addActionListener(event -> onSaveShelterAsClick());
 
         toolbar.add(Box.createHorizontalStrut(15));
-        JButton newDogB  = new JButton(new ImageIcon("images/noun-jack-russell-terrier.png"));
+        JButton newDogB  = new JButton(dogIcon);
           newDogB.setActionCommand("Add new dog");
           newDogB.setToolTipText("Add a new dog to the shelter");
           toolbar.add(newDogB);
           newDogB.addActionListener(event -> onNewDogClick());          
 
         toolbar.add(Box.createHorizontalStrut(5));
-        JButton newCatB = new JButton(new ImageIcon("images/noun-cat.png"));
+        JButton newCatB = new JButton(catIcon);
           newCatB.setActionCommand("Add new cat");
           newCatB.setToolTipText("Add a new cat to the shelter");
           toolbar.add(newCatB);
           newCatB.addActionListener(event -> onNewCatClick());
+
+        toolbar.add(Box.createHorizontalStrut(5));
+        JButton newBunnyB = new JButton(bunnyIcon);
+          newBunnyB.setActionCommand("Add new bunny");
+          newBunnyB.setToolTipText("Add a new bunny to the shelter");
+          toolbar.add(newBunnyB);
+          newBunnyB.addActionListener(event -> onNewBunnyClick());
+
+        toolbar.add(Box.createHorizontalStrut(20));
+        JButton newCliB  = new JButton(new ImageIcon("images/client-1.png"));
+          newCliB.setActionCommand("Add new client");
+          newCliB.setToolTipText("Add a new client");
+          toolbar.add(newCliB);
+          newCliB.addActionListener(event -> onNewClientClick());
 
         toolbar.addSeparator();
         add(toolbar, BorderLayout.PAGE_START);
         add(data, BorderLayout.CENTER);
 
         setBounds(75,25,1080,570);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void updateDisplay() {
-        data.setText("<HTML>" + shelter.toString()
+    private void updateDisplay(Dataview view) {
+        String text = view == Dataview.CLIENTS ? 
+        shelter.clientsToString() : shelter.toString();
+
+        data.setText("<HTML>" + text
                         .replaceAll("<","&lt;")
                         .replaceAll(">", "&gt;")
                         .replaceAll("\n", "<br/>")
                     +"</HTML>");
-        //getContentPane().validate();
-        //getContentPane().repaint();
-        isSaved = false;
     }
 
     public void onNewCatClick() {
+        newAnimal(new Cat(), new JComboBox<>(CatBreed.values()), 
+            new ImageIcon("images/noun-cat.png"));
+    }
+
+    public void onNewDogClick() {
+        newAnimal(new Dog(), new JComboBox<>(DogBreed.values()), 
+            new ImageIcon("images/noun-jack-russell-terrier.png"));
+    }
+
+    public void onNewBunnyClick() {
+        newAnimal(new Bunny(), new JComboBox<>(BunnyBreed.values()), 
+            new ImageIcon("images/noun-bunny.png"));
+    }
+
+    public void onNewClientClick() {
+        JLabel nameTag = new JLabel("Name");
+        JTextField name = new JTextField(20);
+
+        JLabel phoneTag = new JLabel("Phone");
+        JTextField number = new JTextField(20);
+
+        Object[] objects = {
+            nameTag,   name,
+            phoneTag,  number 
+        };
+
+        int button = JOptionPane.showConfirmDialog( 
+            this,
+            objects,
+            "New Client",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            new ImageIcon("images/client-1.png"));
+        if(button == JOptionPane.OK_OPTION) {
+            shelter.addClient(new Client(
+                name.getText(), number.getText()));
+            updateDisplay(Dataview.CLIENTS);
+            isSaved = false;
+        }   
+    }
+
+    public <T extends Animal> void newAnimal(T animal, JComboBox breeds, ImageIcon petIcon) {
         JLabel nameTag = new JLabel("Name");
         JTextField names = new JTextField(20); 
                
@@ -179,11 +248,10 @@ public class MainWin extends JFrame {
         JComboBox<Gender> genders = new JComboBox<>(Gender.values());
 
         JLabel ageTag = new JLabel("<HTML><br/>Age</HTML>");
-        SpinnerModel range = new SpinnerNumberModel(0, 0, 40, 1); //
+        SpinnerModel range = new SpinnerNumberModel(0, 0, 50, 1);
         JSpinner ages = new JSpinner(range);
 
         JLabel breedTag = new JLabel("<HTML><br/>Breed</HTML>");
-        JComboBox breeds = new JComboBox<>(CatBreed.values()); ///
 
         Object[] objects = { 
             nameTag,   names,
@@ -192,64 +260,25 @@ public class MainWin extends JFrame {
             ageTag,    ages
         };
 
-        ImageIcon catIcon = new ImageIcon("images/noun-cat.png");
         int button = JOptionPane.showConfirmDialog( 
             this,
             objects,
-            "New Cat",
+            "New "+animal.family(),
             JOptionPane.OK_CANCEL_OPTION,
             JOptionPane.QUESTION_MESSAGE,
-            catIcon);
+            petIcon);
         if(button == JOptionPane.OK_OPTION) {
-            shelter.addAnimal(new Cat(
+            animal.create(
+                breeds.getSelectedItem(),
                 names.getText(), 
                 (Gender) genders.getSelectedItem(),
-                (Integer) ages.getValue(),
-                (CatBreed) breeds.getSelectedItem()));
-            updateDisplay();
+                (Integer) ages.getValue());
+            shelter.addAnimal(animal);
+            updateDisplay(Dataview.ANIMALS);
+            isSaved = false;
         }   
     }
 
-    //public void onNewAnimalClick() {}
-
-    public void onNewDogClick() {
-        JLabel nameTag = new JLabel("Name");
-        JTextField names = new JTextField(20); 
-               
-        JLabel genderTag = new JLabel("<HTML><br/>Gender</HTML>");        
-        JComboBox genders = new JComboBox<>(Gender.values());
-
-        JLabel ageTag = new JLabel("<HTML><br/>Age</HTML>");
-        SpinnerModel range = new SpinnerNumberModel(0, 0, 35, 1); //
-        JSpinner ages = new JSpinner(range);
-
-        JLabel breedTag = new JLabel("<HTML><br/>Breed</HTML>");
-        JComboBox breeds = new JComboBox<>(DogBreed.values()); ///
-
-        Object[] objects = { 
-            nameTag,   names,
-            breedTag,  breeds, 
-            genderTag, genders, 
-            ageTag,    ages
-        };
-
-        ImageIcon dogIcon = new ImageIcon("images/noun-jack-russell-terrier.png");
-        int button = JOptionPane.showConfirmDialog( 
-            this,
-            objects,
-            "New Dog",
-            JOptionPane.OK_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            dogIcon);
-        if(button == JOptionPane.OK_OPTION) {
-            shelter.addAnimal(new Dog(
-                names.getText(), 
-                (Gender) genders.getSelectedItem(),
-                (Integer) ages.getValue(),
-                (DogBreed) breeds.getSelectedItem()));
-            updateDisplay();
-        }   
-    }
 
     public void onAboutClick() {
         JDialog about = new JDialog();
@@ -265,12 +294,13 @@ public class MainWin extends JFrame {
         } catch(IOException e) {
         }
         
-        String title = new String("<p><font size=+5>MASS</font></p>"
-            + "<p><font size=+2>Mav's Animal Shelter Software</font></p><br/>");
+        JLabel title = new JLabel("<HTML><p><font size=+5>MASS</font></p></HTML>", SwingConstants.CENTER);
+        panel.add(title);
 
+        String subtitle = new String("<p><font size=+2>Mav's Animal Shelter Software</font></p><br/>");
         JLabel artists = new JLabel("<html>"
-          + title
-          + "<p>Version 1.4</p>"
+          + subtitle
+          + "<p>Version 2.0</p>"
           + "<p>Copyright 2022 by Ikechukwu C. Ofili</p>"
           + "<p>Licensed under GNU GPL 3.0</p><p><br/></p>"
           + "<p><em>Logo (free for commercial use)</em></p>"
@@ -281,6 +311,10 @@ public class MainWin extends JFrame {
           + "<p><em>Cat by Llisole from NounProject.com</em></p>"
           + "<p>Licensed for personal and commercial purposes (with attribution)</p>"
           + "<p><font size=-1>https://thenounproject.com/icon/cat-3652151/</font></p><p><br/></p>"
+          + "<p><em>Bunny by Nithinan Tatah from NounProject.com</em></p>"
+          + "<p><font size=-1>https://thenounproject.com/icon/bunny-1565760/</font></p><p><br/></p>"
+          + "<p><em>Client icon by Icons8</em></p>"
+          + "<p><font size=-1>https://icons8.com/icon/D3hRNbakq0Fp/client</font></p><p><br/></p>"
           + "<p><em>Save and save as icons by Icons8</em></p>"
           + "<p><font size=-1>https://icons8.com/icon/</font></font></p><p><br/></p>"                 
           + "<p><em>Folder icons created by Freepik - Flaticon</em></p>"
@@ -288,12 +322,14 @@ public class MainWin extends JFrame {
           + "</html>");
         panel.add(artists);
 
+        JPanel okpanel = new JPanel();
         JButton ok = new JButton("OK");
         ok.addActionListener(event -> about.setVisible(false));
-        panel.add(ok);
+        okpanel.add(ok);
+        panel.add(okpanel);
         
-        about.setBounds(100,0,965,650);
         about.add(panel);
+        about.setBounds(100,0,1040,650);
         about.setVisible(true);
     }
 
@@ -370,8 +406,9 @@ public class MainWin extends JFrame {
     public void onNewShelterClick() {
         if (!safeToExit()) return;
         String name = JOptionPane.showInputDialog(this, "Enter the shelter's name");
+        if (name == null) return;
         shelter = new Shelter(name);
-        updateDisplay();
+        updateDisplay(Dataview.ANIMALS);
         isSaved = true;
     }
 
@@ -388,7 +425,7 @@ public class MainWin extends JFrame {
             File filename = fc.getSelectedFile();
             try (BufferedReader br = new BufferedReader(new FileReader(filename))) {                 
                 shelter = new Shelter(br);
-                updateDisplay();
+                updateDisplay(Dataview.ANIMALS);
                 isSaved = true;
             }
             catch(Exception e) {
@@ -404,5 +441,6 @@ public class MainWin extends JFrame {
     }
 }
 
-// newAnimalClick, about, updatedis
-//cat/dog save.
+//about-all panels, window listener
+//add data valid : shelter, client, *(default name for animal dialog) //error_dialog funtion
+//for open see if label has changed (or check if numofclients > 0)

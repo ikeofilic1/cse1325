@@ -4,9 +4,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 public abstract class Animal {
-	private Gender gender;
-	private int age;
-	private String name;
+	protected Gender gender;
+	protected int age;
+	protected String name;
 
 	public Animal(String name, Gender gender, int age) throws IllegalArgumentException {
 		if (age < 0) throw new IllegalArgumentException("Age cannot be negative.\n");
@@ -19,6 +19,7 @@ public abstract class Animal {
 		gender = Gender.valueOf(br.readLine());
 		age = Integer.parseInt(br.readLine());
 	}
+	public Animal() {}
 
 	public abstract String family();
 	public abstract String breed();
@@ -28,8 +29,13 @@ public abstract class Animal {
 	public void save(BufferedWriter bw) throws IOException {
 		bw.write("" + family() + '\n' + name + '\n' + gender + '\n' + age + '\n');
 	}
+
+	public abstract void create(Object breed, String name, Gender gender, int age);
+
 	@Override
-	public String toString(){
-		return name+" ("+((age > 0)?age:"< 1")+" year old "+gender+" "+breed()+" ";
+	public String toString() {
+		return name+" ("+((age > 0) ?age :"< 1") +" year old "+gender+" "+breed()+" ";
 	}
 }
+
+//make tostring abstract, maybe save too //family static

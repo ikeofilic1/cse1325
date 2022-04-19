@@ -14,6 +14,7 @@ public class Dog extends Animal {
 		super(br);
 		this.breed = DogBreed.valueOf(br.readLine());
 	}
+	public Dog() {}
 	
 	@Override
 	public String family() { return "dog";}
@@ -23,6 +24,13 @@ public class Dog extends Animal {
 	public void save(BufferedWriter bw) throws IOException{
 		super.save(bw);
 		bw.write("" + breed.name() + '\n');
+	}
+	@Override
+	public void create(Object breed, String name, Gender gender, int age) {
+		this.age = age;
+		this.gender = gender;
+		this.name = name;
+		this.breed = (DogBreed) breed;
 	}
 	@Override
 	public String toString(){

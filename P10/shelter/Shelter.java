@@ -6,13 +6,15 @@ import java.io.IOException;
 
 public class Shelter {
 	private String name;
-	private ArrayList<Animal> animals;
 	private String filename;
+	private ArrayList<Animal> animals;
+	private ArrayList<Client> clients;
 
 	public Shelter(String name) {
 		this.name = name;
 		this.filename = "";
 		animals = new ArrayList<>();
+		clients = new ArrayList<>();
 	}
 	public Shelter(BufferedReader br) throws IOException{
 		this(br.readLine());
@@ -24,20 +26,38 @@ public class Shelter {
 				addAnimal(new Dog(br));
 			if (family.equals("cat"))
 				addAnimal(new Cat(br));
+			if (family.equals("bunny"))
+				addAnimal(new Bunny(br));
+		}
+		count = Integer.parseInt(br.readLine());
+		for (int i = 0; i < count; ++i) {
+			addClient(new Client(br));
 		}
 	}
+
+	public String clientsToString() {
+		StringBuilder toString = new StringBuilder();
+		for (Client c: clients) {
+			toString.append(c.toString());
+		}
+		return toString.toString();
+	}
+
 	public Animal getAnimal(int index) throws IllegalArgumentException {
 		if (index < 0) throw new IllegalArgumentException("Index cannot be negative.\n");
 		return animals.get(index);
 	}
 	public void save(BufferedWriter bw) throws IOException{
-		bw.write(name + '\n' + filename + '\n' + numAnimals() + '\n');
+		bw.write(name + '\n' + filename + '\n' + animals.size() + '\n');
 		for (Animal a : animals) a.save(bw);
+
+		bw.write("" + clients.size() + '\n');
+		for (Client c : clients) c.save(bw);
 	}
 	
-	public int numAnimals() { return animals.size();}
+	public void addAnimal(Animal animal) { animals.add(animal);}
+	public void addClient(Client client) { clients.add(client);}
 	public String getFilename() { return filename;}
-	public void addAnimal(Animal animal){ animals.add(animal);}
 	public void setFilename(String filename) { this.filename = filename;}
 	
 	@Override
