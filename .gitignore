@@ -13,7 +13,7 @@
 *.o
 *.so
 *.out
-#main
+main
 
 # Packages #
 ############
