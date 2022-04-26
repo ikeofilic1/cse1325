@@ -8,7 +8,11 @@ public class Client {
 	private String name;
 	private String phone;
 
-	public Client(String name, String phone) {
+	public Client(String name, String phone) throws IllegalArgumentException{
+		if (name == null || name.equals("")) 
+			throw new IllegalArgumentException("Name cannot be empty.\n");
+		if (phone == null || phone.equals("")) 
+			throw new IllegalArgumentException("Contact info cannot be left empty.\n");	
 		this.name = name;
 		this.phone = phone;
 	}
@@ -27,3 +31,5 @@ public class Client {
     	return name + " (" + phone + ")\n";
     }
 }
+
+//add regex for phone

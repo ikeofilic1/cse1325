@@ -27,6 +27,8 @@ public class Cat extends Animal {
 	}
 	@Override
 	public void create(Object breed, String name, Gender gender, int age) {
+		if (age < 0) throw new IllegalArgumentException("Age cannot be negative.\n");
+		if (name.equals("")) throw new IllegalArgumentException("Name cannot be empty.\n");
 		this.age = age;
 		this.gender = gender;
 		this.name = name;
@@ -34,6 +36,20 @@ public class Cat extends Animal {
 	}
 	@Override
 	public String toString(){
-		return super.toString() + (age < 1 ?"kitten":"cat") + ").\n";
+		return super.toString() + (age < 1 ?"kitten":"cat") + ")\n";
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (! super.equals(obj)) return false;
+		Cat check = (Cat) obj;
+		return breed == check.breed;
+	}
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		hash = 37 * hash + name.hashCode();
+		hash = 37 * hash + breed.hashCode();
+
+		return hash;
 	}
 }				

@@ -10,6 +10,7 @@ public abstract class Animal {
 
 	public Animal(String name, Gender gender, int age) throws IllegalArgumentException {
 		if (age < 0) throw new IllegalArgumentException("Age cannot be negative.\n");
+		if (name.equals("")) throw new IllegalArgumentException("Name cannot be empty.\n");
 		this.age = age;
 		this.gender = gender;
 		this.name = name;
@@ -23,8 +24,6 @@ public abstract class Animal {
 
 	public abstract String family();
 	public abstract String breed();
-	public String getName() {return name;}
-	public int getAge() {return age;}
 
 	public void save(BufferedWriter bw) throws IOException {
 		bw.write("" + family() + '\n' + name + '\n' + gender + '\n' + age + '\n');
@@ -34,8 +33,17 @@ public abstract class Animal {
 
 	@Override
 	public String toString() {
-		return name+" ("+((age > 0) ?age :"< 1") +" year old "+gender+" "+breed()+" ";
+		return name +" ("+ age +" year old "+gender+" "+breed()+" ";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) return true;
+		if (obj == null || this.getClass() != obj.getClass()) return false;
+
+		Animal check = (Animal) obj;
+
+		return name.equals(check.name) && 
+		age == check.age && gender == check.gender; 
 	}
 }
-
-//make tostring abstract, maybe save too //family static

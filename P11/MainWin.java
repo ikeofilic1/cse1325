@@ -51,13 +51,12 @@ public class MainWin extends JFrame {
     private Shelter shelter;
     private JLabel data;
     private boolean isSaved;
-    private enum Dataview {ANIMALS, CLIENTS}
+    private enum DataView {ANIMALS, CLIENTS, ADOPTIONS}
 
     public MainWin(String title) {
         super(title);
         isSaved = true;
-        shelter = new Shelter("M.A.S.");
-        shelter.setFilename("");
+        shelter = new Shelter("M.A.S");
         data = new JLabel();        
         data.setVerticalAlignment(JLabel.TOP);
         
@@ -76,29 +75,29 @@ public class MainWin extends JFrame {
         JMenuItem newCat     = new JMenuItem("New Cat");
         JMenuItem newBunny   = new JMenuItem("New Bunny");
         JMenuItem animList   = new JMenuItem("List Available");
+        JMenuItem adoptL     = new JMenuItem("List Adopted");
         JMenu     client     = new JMenu("Client");
         JMenuItem newCli     = new JMenuItem("New");
-        JMenuItem cliList    = new JMenuItem("List");       
+        JMenuItem cliList    = new JMenuItem("List");
+        JMenuItem adopt      = new JMenuItem("Adopt Animal");       
         JMenu     help       = new JMenu("Help");
         JMenuItem about      = new JMenuItem("About");
 
-        //Animal icons (for use later)
-        ImageIcon dogIcon   = new ImageIcon("images/noun-jack-russell-terrier.png");
-        ImageIcon catIcon   = new ImageIcon("images/noun-cat.png");
-        ImageIcon bunnyIcon = new ImageIcon("images/noun-bunny.png");
-        
+
         newDog  .addActionListener(event -> onNewDogClick());
         newCat  .addActionListener(event -> onNewCatClick());
         newBunny.addActionListener(event -> onNewBunnyClick());
         newCli  .addActionListener(event -> onNewClientClick());
+        adopt   .addActionListener(event -> onAdoptAnimalClick());
         quit    .addActionListener(event -> onQuitClick());
         about   .addActionListener(event -> onAboutClick());
         open    .addActionListener(event -> onOpenShelterClick());
         newF    .addActionListener(event -> onNewShelterClick());
         save    .addActionListener(event -> onSaveShelterClick());
         saveAs  .addActionListener(event -> onSaveShelterAsClick());
-        animList.addActionListener(event -> updateDisplay(Dataview.ANIMALS));
-        cliList .addActionListener(event -> updateDisplay(Dataview.CLIENTS));
+        animList.addActionListener(event -> updateDisplay(DataView.ANIMALS));
+        cliList .addActionListener(event -> updateDisplay(DataView.CLIENTS));
+        adoptL  .addActionListener(event -> updateDisplay(DataView.ADOPTIONS));
         
         file.add(open);
         file.add(newF);
@@ -109,8 +108,10 @@ public class MainWin extends JFrame {
         animal.add(newCat);
         animal.add(newBunny);
         animal.add(animList);
+        animal.add(adoptL);
         client.add(newCli);
         client.add(cliList);
+        client.add(adopt);
         help.add(about);        
         menubar.add(file);
         menubar.add(animal);
@@ -152,21 +153,21 @@ public class MainWin extends JFrame {
           saveAsB.addActionListener(event -> onSaveShelterAsClick());
 
         toolbar.add(Box.createHorizontalStrut(15));
-        JButton newDogB  = new JButton(dogIcon);
+        JButton newDogB  = new JButton(new ImageIcon("images/noun-jack-russell-terrier.png"));
           newDogB.setActionCommand("Add new dog");
           newDogB.setToolTipText("Add a new dog to the shelter");
           toolbar.add(newDogB);
           newDogB.addActionListener(event -> onNewDogClick());          
 
         toolbar.add(Box.createHorizontalStrut(5));
-        JButton newCatB = new JButton(catIcon);
+        JButton newCatB = new JButton(new ImageIcon("images/noun-cat.png"));
           newCatB.setActionCommand("Add new cat");
           newCatB.setToolTipText("Add a new cat to the shelter");
           toolbar.add(newCatB);
           newCatB.addActionListener(event -> onNewCatClick());
 
         toolbar.add(Box.createHorizontalStrut(5));
-        JButton newBunnyB = new JButton(bunnyIcon);
+        JButton newBunnyB = new JButton(new ImageIcon("images/noun-bunny.png"));
           newBunnyB.setActionCommand("Add new bunny");
           newBunnyB.setToolTipText("Add a new bunny to the shelter");
           toolbar.add(newBunnyB);
@@ -179,6 +180,13 @@ public class MainWin extends JFrame {
           toolbar.add(newCliB);
           newCliB.addActionListener(event -> onNewClientClick());
 
+        toolbar.add(Box.createHorizontalStrut(10));
+        JButton adoptB  = new JButton(new ImageIcon("images/noun-adopt-pet.png"));
+          adoptB.setActionCommand("Adopt an animal");
+          adoptB.setToolTipText("Adopt an animal from the shelter");
+          toolbar.add(adoptB);
+          adoptB.addActionListener(event -> onAdoptAnimalClick());
+
         toolbar.addSeparator();
         add(toolbar, BorderLayout.PAGE_START);
         add(data, BorderLayout.CENTER);
@@ -187,9 +195,10 @@ public class MainWin extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private void updateDisplay(Dataview view) {
-        String text = view == Dataview.CLIENTS ? 
-        shelter.clientsToString() : shelter.toString();
+    private void updateDisplay(DataView view) {
+        String text = view == DataView.CLIENTS ? 
+        shelter.clientsToString() : (view == DataView.ANIMALS ? 
+        shelter.toString() : shelter.adoptionsToString());
 
         data.setText("<HTML>" + text
                         .replaceAll("<","&lt;")
@@ -233,10 +242,14 @@ public class MainWin extends JFrame {
             JOptionPane.QUESTION_MESSAGE,
             new ImageIcon("images/client-1.png"));
         if(button == JOptionPane.OK_OPTION) {
-            shelter.addClient(new Client(
-                name.getText(), number.getText()));
-            updateDisplay(Dataview.CLIENTS);
-            isSaved = false;
+            try {
+                shelter.addClient(new Client(
+                    name.getText(), number.getText()));
+                updateDisplay(DataView.CLIENTS);
+                isSaved = false;
+            } catch (IllegalArgumentException e) {
+                errorDialog(e.getMessage());
+            }
         }   
     }
 
@@ -268,17 +281,63 @@ public class MainWin extends JFrame {
             JOptionPane.QUESTION_MESSAGE,
             petIcon);
         if(button == JOptionPane.OK_OPTION) {
-            animal.create(
-                breeds.getSelectedItem(),
-                names.getText(), 
-                (Gender) genders.getSelectedItem(),
-                (Integer) ages.getValue());
-            shelter.addAnimal(animal);
-            updateDisplay(Dataview.ANIMALS);
-            isSaved = false;
+            try {
+                animal.create(
+                    breeds.getSelectedItem(),
+                    names.getText(), 
+                    (Gender) genders.getSelectedItem(),
+                    (Integer) ages.getValue());
+                shelter.addAnimal(animal);
+                updateDisplay(DataView.ANIMALS);
+                isSaved = false;
+            } catch (IllegalArgumentException e) {
+                errorDialog(e.getMessage());
+            }
         }   
     }
 
+    public void onAdoptAnimalClick() {
+        JLabel animalTag = new JLabel("Animal");
+        JLabel clientTag = new JLabel("<HTML><br/>Client</HTML>");
+        JComboBox<Animal> animals = new JComboBox<>();
+        JComboBox<Client> clients = new JComboBox<>();
+        var it1 = shelter.animalListIterator();
+        var it2 = shelter.clientListIterator();
+
+        if (!it1.hasNext()) {
+            errorDialog("No animals available for adoption");
+            return;
+        }
+        if (!it2.hasNext()) {
+            errorDialog("Add a new client to adopt animals");
+            return;
+        }
+
+        while(it1.hasNext()) {
+            animals.addItem(it1.next());
+        }
+        while(it2.hasNext()) {
+            clients.addItem(it2.next());
+        }
+
+        Object[] objects = { 
+            animalTag, animals,
+            clientTag, clients
+        };
+        int button = JOptionPane.showConfirmDialog( 
+            this,
+            objects,
+            "❤ Adoption ❤",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            new ImageIcon("images/noun-adopt-pet.png"));
+        if(button == JOptionPane.OK_OPTION) {
+            shelter.adopt((Animal) animals.getSelectedItem(),
+                (Client) clients.getSelectedItem());
+            updateDisplay(DataView.ADOPTIONS);
+            isSaved = false;
+        }
+    }
 
     public void onAboutClick() {
         JDialog about = new JDialog();
@@ -342,8 +401,8 @@ public class MainWin extends JFrame {
             isSaved = true;
         }
         catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Unable to open " + shelter.getFilename() + '\n' + e,
-                "Failed", JOptionPane.ERROR_MESSAGE); 
+            errorDialog("Cannot save to " + 
+                shelter.getFilename() + '\n' + e);
         }
     }
 
@@ -403,12 +462,17 @@ public class MainWin extends JFrame {
         return true;
     }
 
+    public void errorDialog(String message) {
+        JOptionPane.showMessageDialog(this, message, 
+            "Error", JOptionPane.ERROR_MESSAGE); 
+    }
+
     public void onNewShelterClick() {
         if (!safeToExit()) return;
         String name = JOptionPane.showInputDialog(this, "Enter the shelter's name");
         if (name == null) return;
         shelter = new Shelter(name);
-        updateDisplay(Dataview.ANIMALS);
+        updateDisplay(DataView.ANIMALS);
         isSaved = true;
     }
 
@@ -425,12 +489,11 @@ public class MainWin extends JFrame {
             File filename = fc.getSelectedFile();
             try (BufferedReader br = new BufferedReader(new FileReader(filename))) {                 
                 shelter = new Shelter(br);
-                updateDisplay(Dataview.ANIMALS);
+                updateDisplay(DataView.ANIMALS);
                 isSaved = true;
             }
             catch(Exception e) {
-                JOptionPane.showMessageDialog(this,"Unable to open " + filename + '\n' + e, 
-                    "Failed", JOptionPane.ERROR_MESSAGE); 
+                errorDialog("Unable to open " + filename + '\n' + e);
             }
         }
     }
@@ -442,5 +505,5 @@ public class MainWin extends JFrame {
 }
 
 //about-all panels, window listener
-//add data valid : shelter, client, *(default name for animal dialog) //error_dialog funtion
+//add data valid : shelter, client, *(default name for animal dialog)
 //for open see if label has changed (or check if numofclients > 0)
