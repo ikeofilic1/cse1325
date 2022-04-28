@@ -102,8 +102,8 @@ public class FindMinHash {
     // This method searches for smaller hashCodes from index start to start+number
     public void search(long start, long number) {
         System.out.printf("%-11s (ID %3s) searching %,15d to %,15d\n",
-            Thread.currentThread().getName(), Thread.currentThread().getId(),
-            start, start + number);
+           Thread.currentThread().getName(), Thread.currentThread().getId(),
+           start, start + number);
         int word0 = (int) (start % wordList.size());
         int word1 = (int) ((start / wordList.size()) % wordList.size());
         

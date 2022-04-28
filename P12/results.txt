@@ -41,17 +41,216 @@ sys	0m0.289s
 
 
 YOUR Timing:
+#1
+Thread-0    (ID  14) searching               0 to     399,999,999
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:36.89 (36.89s total)
+
+#2
+Thread-0    (ID  14) searching               0 to     199,999,999
+Thread-1    (ID  15) searching     200,000,000 to     399,999,999
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:24.18 (24.18s total)
+
+#3
+Thread-0    (ID  14) searching               0 to     133,333,332
+Thread-2    (ID  16) searching     266,666,666 to     399,999,999
+Thread-1    (ID  15) searching     133,333,333 to     266,666,665
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:18.65 (18.65s total)
+
+#4
+Thread-1    (ID  15) searching     100,000,000 to     199,999,999
+Thread-2    (ID  16) searching     200,000,000 to     299,999,999
+Thread-3    (ID  17) searching     300,000,000 to     399,999,999
+Thread-0    (ID  14) searching               0 to      99,999,999
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:17.27 (17.27s total)
+
+#5
+Thread-2    (ID  16) searching     160,000,000 to     239,999,999
+Thread-1    (ID  15) searching      80,000,000 to     159,999,999
+Thread-4    (ID  18) searching     320,000,000 to     399,999,999
+Thread-0    (ID  14) searching               0 to      79,999,999
+Thread-3    (ID  17) searching     240,000,000 to     319,999,999
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:16.12 (16.12s total)
+
+#6
+Thread-0    (ID  14) searching               0 to      66,666,665
+Thread-5    (ID  19) searching     333,333,330 to     399,999,999
+Thread-1    (ID  15) searching      66,666,666 to     133,333,331
+Thread-4    (ID  18) searching     266,666,664 to     333,333,329
+Thread-2    (ID  16) searching     133,333,332 to     199,999,997
+Thread-3    (ID  17) searching     199,999,998 to     266,666,663
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:16.16 (16.16s total)
+
+#7
+Thread-0    (ID  14) searching               0 to      57,142,856
+Thread-4    (ID  18) searching     228,571,428 to     285,714,284
+Thread-5    (ID  19) searching     285,714,285 to     342,857,141
+Thread-6    (ID  20) searching     342,857,142 to     399,999,999
+Thread-1    (ID  15) searching      57,142,857 to     114,285,713
+Thread-3    (ID  17) searching     171,428,571 to     228,571,427
+Thread-2    (ID  16) searching     114,285,714 to     171,428,570
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:15.84 (15.84s total)
+
+#8
+Thread-2    (ID  16) searching     100,000,000 to     149,999,999
+Thread-4    (ID  18) searching     200,000,000 to     249,999,999
+Thread-7    (ID  21) searching     350,000,000 to     399,999,999
+Thread-6    (ID  20) searching     300,000,000 to     349,999,999
+Thread-5    (ID  19) searching     250,000,000 to     299,999,999
+Thread-1    (ID  15) searching      50,000,000 to      99,999,999
+Thread-0    (ID  14) searching               0 to      49,999,999
+Thread-3    (ID  17) searching     150,000,000 to     199,999,999
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:15.70 (15.70s total)
+
+#9
+Thread-0    (ID  14) searching               0 to      44,444,443
+Thread-8    (ID  22) searching     355,555,552 to     399,999,999
+Thread-7    (ID  21) searching     311,111,108 to     355,555,551
+Thread-6    (ID  20) searching     266,666,664 to     311,111,107
+Thread-1    (ID  15) searching      44,444,444 to      88,888,887
+Thread-5    (ID  19) searching     222,222,220 to     266,666,663
+Thread-4    (ID  18) searching     177,777,776 to     222,222,219
+Thread-3    (ID  17) searching     133,333,332 to     177,777,775
+Thread-2    (ID  16) searching      88,888,888 to     133,333,331
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:15.81 (15.81s total)
+
+#10
+Thread-0    (ID  14) searching               0 to      39,999,999
+Thread-2    (ID  16) searching      80,000,000 to     119,999,999
+Thread-9    (ID  23) searching     360,000,000 to     399,999,999
+Thread-8    (ID  22) searching     320,000,000 to     359,999,999
+Thread-7    (ID  21) searching     280,000,000 to     319,999,999
+Thread-6    (ID  20) searching     240,000,000 to     279,999,999
+Thread-4    (ID  18) searching     160,000,000 to     199,999,999
+Thread-5    (ID  19) searching     200,000,000 to     239,999,999
+Thread-1    (ID  15) searching      40,000,000 to      79,999,999
+Thread-3    (ID  17) searching     120,000,000 to     159,999,999
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:15.79 (15.79s total)
+
+#11
+Thread-1    (ID  15) searching      36,363,636 to      72,727,271
+Thread-9    (ID  23) searching     327,272,724 to     363,636,359
+Thread-10   (ID  24) searching     363,636,360 to     399,999,999
+Thread-8    (ID  22) searching     290,909,088 to     327,272,723
+Thread-7    (ID  21) searching     254,545,452 to     290,909,087
+Thread-6    (ID  20) searching     218,181,816 to     254,545,451
+Thread-5    (ID  19) searching     181,818,180 to     218,181,815
+Thread-0    (ID  14) searching               0 to      36,363,635
+Thread-2    (ID  16) searching      72,727,272 to     109,090,907
+Thread-3    (ID  17) searching     109,090,908 to     145,454,543
+Thread-4    (ID  18) searching     145,454,544 to     181,818,179
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:16.42 (16.12s total)
+
+#12
+Thread-0    (ID  14) searching               0 to      33,333,332
+Thread-11   (ID  25) searching     366,666,663 to     399,999,999
+Thread-10   (ID  24) searching     333,333,330 to     366,666,662
+Thread-6    (ID  20) searching     199,999,998 to     233,333,330
+Thread-9    (ID  23) searching     299,999,997 to     333,333,329
+Thread-7    (ID  21) searching     233,333,331 to     266,666,663
+Thread-8    (ID  22) searching     266,666,664 to     299,999,996
+Thread-1    (ID  15) searching      33,333,333 to      66,666,665
+Thread-5    (ID  19) searching     166,666,665 to     199,999,997
+Thread-4    (ID  18) searching     133,333,332 to     166,666,664
+Thread-2    (ID  16) searching      66,666,666 to      99,999,998
+Thread-3    (ID  17) searching      99,999,999 to     133,333,331
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:16.29 (16.29s total)
 
 
+#13
+Thread-0    (ID  14) searching               0 to      30,769,229
+Thread-12   (ID  26) searching     369,230,760 to     399,999,999
+Thread-11   (ID  25) searching     338,461,530 to     369,230,759
+Thread-10   (ID  24) searching     307,692,300 to     338,461,529
+Thread-3    (ID  17) searching      92,307,690 to     123,076,919
+Thread-9    (ID  23) searching     276,923,070 to     307,692,299
+Thread-8    (ID  22) searching     246,153,840 to     276,923,069
+Thread-7    (ID  21) searching     215,384,610 to     246,153,839
+Thread-6    (ID  20) searching     184,615,380 to     215,384,609
+Thread-5    (ID  19) searching     153,846,150 to     184,615,379
+Thread-4    (ID  18) searching     123,076,920 to     153,846,149
+Thread-1    (ID  15) searching      30,769,230 to      61,538,459
+Thread-2    (ID  16) searching      61,538,460 to      92,307,689
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:15.83 (15.83s total)
+
+#14
+Thread-3    (ID  17) searching      85,714,284 to     114,285,711
+Thread-13   (ID  27) searching     371,428,564 to     399,999,999
+Thread-9    (ID  23) searching     257,142,852 to     285,714,279
+Thread-12   (ID  26) searching     342,857,136 to     371,428,563
+Thread-8    (ID  22) searching     228,571,424 to     257,142,851
+Thread-11   (ID  25) searching     314,285,708 to     342,857,135
+Thread-10   (ID  24) searching     285,714,280 to     314,285,707
+Thread-4    (ID  18) searching     114,285,712 to     142,857,139
+Thread-7    (ID  21) searching     199,999,996 to     228,571,423
+Thread-6    (ID  20) searching     171,428,568 to     199,999,995
+Thread-5    (ID  19) searching     142,857,140 to     171,428,567
+Thread-2    (ID  16) searching      57,142,856 to      85,714,283
+Thread-1    (ID  15) searching      28,571,428 to      57,142,855
+Thread-0    (ID  14) searching               0 to      28,571,427
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:16.12 (16.12s total)
+
+#15
+Thread-0    (ID  14) searching               0 to      26,666,665
+Thread-11   (ID  25) searching     293,333,326 to     319,999,991
+Thread-14   (ID  28) searching     373,333,324 to     399,999,999
+Thread-8    (ID  22) searching     213,333,328 to     239,999,993
+Thread-13   (ID  27) searching     346,666,658 to     373,333,323
+Thread-12   (ID  26) searching     319,999,992 to     346,666,657
+Thread-10   (ID  24) searching     266,666,660 to     293,333,325
+Thread-9    (ID  23) searching     239,999,994 to     266,666,659
+Thread-1    (ID  15) searching      26,666,666 to      53,333,331
+Thread-6    (ID  20) searching     159,999,996 to     186,666,661
+Thread-7    (ID  21) searching     186,666,662 to     213,333,327
+Thread-5    (ID  19) searching     133,333,330 to     159,999,995
+Thread-4    (ID  18) searching     106,666,664 to     133,333,329
+Thread-3    (ID  17) searching      79,999,998 to     106,666,663
+Thread-2    (ID  16) searching      53,333,332 to      79,999,997
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:15.61 (15.61s total)
+
+#16
+Thread-0    (ID  14) searching               0 to      24,999,999
+Thread-15   (ID  29) searching     375,000,000 to     399,999,999
+Thread-12   (ID  26) searching     300,000,000 to     324,999,999
+Thread-14   (ID  28) searching     350,000,000 to     374,999,999
+Thread-13   (ID  27) searching     325,000,000 to     349,999,999
+Thread-8    (ID  22) searching     200,000,000 to     224,999,999
+Thread-11   (ID  25) searching     275,000,000 to     299,999,999
+Thread-10   (ID  24) searching     250,000,000 to     274,999,999
+Thread-9    (ID  23) searching     225,000,000 to     249,999,999
+Thread-1    (ID  15) searching      25,000,000 to      49,999,999
+Thread-7    (ID  21) searching     175,000,000 to     199,999,999
+Thread-6    (ID  20) searching     150,000,000 to     174,999,999
+Thread-5    (ID  19) searching     125,000,000 to     149,999,999
+Thread-4    (ID  18) searching     100,000,000 to     124,999,999
+Thread-3    (ID  17) searching      75,000,000 to      99,999,999
+Thread-2    (ID  16) searching      50,000,000 to      74,999,999
+Best word "NOBLEST ARCTURUS" has hashCode 7
+command took 0:0:15.92 (15.92s total)
 
 
 QUESTION 3: Does adding more threads continue to speed up the program? Do more threads ever slow down the program slightly?  Why or why not?
-Adding more threads speeds up the program.
+Adding more threads speeds up the program. Though as you add more threads, it reaches a point where more time is spent managing the threads (starting, joining) than actual work. 
+At this point, any thread added will only make things slower
 
 
 
 QUESTION 4: Does adding more threads increase the "system load", or is it constant regardless of the number of threads?  Why?
-
+More threads increase the cpu load
 
 
 
