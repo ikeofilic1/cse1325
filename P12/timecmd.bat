@@ -1,6 +1,10 @@
 @echo off
 @setlocal
 
+:: Credit
+:: Thanks to Peter Mortensen for his post on stack overflow
+:: Link to the post: 
+
 set start=%time%
 
 :: Runs your command
