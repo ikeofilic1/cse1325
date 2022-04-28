@@ -4,6 +4,7 @@
 :: Credit
 :: Thanks to Peter Mortensen for his post on stack overflow
 :: Link to the post: https://stackoverflow.com/questions/673523/how-do-i-measure-execution-time-of-a-command-on-the-windows-command-line/6209392#6209392
+
 set start=%time%
 
 :: Runs your command
