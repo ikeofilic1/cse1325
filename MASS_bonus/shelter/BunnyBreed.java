@@ -1,8 +1,8 @@
 package shelter;
 public enum BunnyBreed {
-    MIN_LION("miniature lion lop"), VELVET("velveteen lop"), L_HEAD("lionhead"),
-    AMER_FUZZ("american fuzzy"), HOLL("holland lop"), FLEM("flemish giant"), MINI("mini rex"),
-    C_GIANT("checkered giant"), BRIT("britannia petite"), BLANC("blanc de hotot");
+    MIN_LION("miniature Lion Lop"), VELVET("Velveteen Lop"), L_HEAD("Lionhead"),
+    AMER_FUZZ("American Fuzzy"), HOLL("Holland Lop"), FLEM("Flemish Giant"), MINI("Mini Rex"),
+    C_GIANT("Checkered Giant"), BRIT("Britannia Petite"), BLANC("Blanc de Hotot");
 
     private final String toString;
     private BunnyBreed(String x){ toString = x;} 

@@ -1,10 +1,10 @@
 package shelter;
 public enum CatBreed {
-	ABYSSINIAN("abyssinian"), CHARTREUX("chartreux"), RAGAMUFFIN("ragamuffin"), 
-	RAGDOLL("ragdoll"), BRIT_SHORT("british shorthair"), EX_SHORT("exotic shorthair"), 
-	SPHYNX("sphynx"), SIAMESE("siamese"), REX("cornish rex"), BENGAL("bengal"), 
-	PERSIAN("persian"), JAVANESE("javanese"), BOMBAY("bombay"), MIX("mixed breed"), 
-	BLUE("russian blue"), SAVANNAH("savannah"), VAN("turkish van");
+	ABYSSINIAN("Abyssinian"), CHARTREUX("Chartreux"), RAGAMUFFIN("Ragamuffin"), 
+	RAGDOLL("Ragdoll"), BRIT_SHORT("British Shorthair"), EX_SHORT("Exotic Shorthair"), 
+	SPHYNX("Sphynx"), SIAMESE("Siamese"), REX("Cornish Rex"), BENGAL("Bengal"), 
+	PERSIAN("Persian"), JAVANESE("Javanese"), BOMBAY("Bombay"), MIX("Mix-breed"), 
+	BLUE("Russian Blue"), SAVANNAH("Savannah"), VAN("Turkish van");
 
 	private final String toString;
 	private CatBreed(String x){ toString = x;} 

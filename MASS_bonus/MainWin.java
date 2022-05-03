@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
+import java.awt.event.ItemEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Box;
@@ -28,6 +29,7 @@ import javax.swing.JSeparator;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 import javax.swing.filechooser.FileFilter;
@@ -57,6 +59,7 @@ public class MainWin extends JFrame {
     private Shelter shelter;
     private JLabel data;
     private boolean isSaved;
+    private JScrollPane scrollPane;
     private enum DataView {ANIMALS, CLIENTS, ADOPTIONS}
 
     public MainWin(String title) {
@@ -128,7 +131,8 @@ public class MainWin extends JFrame {
 
         JButton openB = new JButton(new ImageIcon("images/get-file.png"));
           openB.setActionCommand("Load an existing shelter from file");
-          openB.setToolTipText("Load an existing shelter");
+          openB.setToolTipText("Load an existing shelter");          
+          setBorder(openB);
           toolbar.add(openB);
           openB.addActionListener(event -> onOpenShelterClick());
 
@@ -136,6 +140,7 @@ public class MainWin extends JFrame {
         JButton newB = new JButton(new ImageIcon("images/new-file.png"));
           newB.setActionCommand("New shelter");
           newB.setToolTipText("Create a new, empty shelter");
+          setBorder(newB);
           toolbar.add(newB);
           newB.addActionListener(event -> onNewShelterClick());
 
@@ -143,6 +148,7 @@ public class MainWin extends JFrame {
         JButton saveB  = new JButton(new ImageIcon("images/save-file.png"));
           saveB.setActionCommand("Save current shelter");
           saveB.setToolTipText("Save current shelter");
+          setBorder(saveB);
           toolbar.add(saveB);
           saveB.addActionListener(event -> onSaveShelterClick());
 
@@ -150,6 +156,7 @@ public class MainWin extends JFrame {
         JButton saveAsB  = new JButton(new ImageIcon("images/save-file-as.png"));
           saveAsB.setActionCommand("Save current shelter as");
           saveAsB.setToolTipText("Save current shelter to new location");
+          setBorder(saveAsB);
           toolbar.add(saveAsB);
           saveAsB.addActionListener(event -> onSaveShelterAsClick());
 
@@ -157,6 +164,7 @@ public class MainWin extends JFrame {
         JButton newDogB  = new JButton(new ImageIcon("images/noun-jack-russell-terrier.png"));
           newDogB.setActionCommand("Add new dog");
           newDogB.setToolTipText("Add a new dog to the shelter");
+          setBorder(newDogB);
           toolbar.add(newDogB);
           newDogB.addActionListener(event -> onNewDogClick());          
 
@@ -164,6 +172,7 @@ public class MainWin extends JFrame {
         JButton newCatB = new JButton(new ImageIcon("images/noun-cat.png"));
           newCatB.setActionCommand("Add new cat");
           newCatB.setToolTipText("Add a new cat to the shelter");
+          setBorder(newCatB);
           toolbar.add(newCatB);
           newCatB.addActionListener(event -> onNewCatClick());
 
@@ -171,6 +180,7 @@ public class MainWin extends JFrame {
         JButton newBunnyB = new JButton(new ImageIcon("images/noun-bunny.png"));
           newBunnyB.setActionCommand("Add new bunny");
           newBunnyB.setToolTipText("Add a new bunny to the shelter");
+          setBorder(newBunnyB);
           toolbar.add(newBunnyB);
           newBunnyB.addActionListener(event -> onNewBunnyClick());
 
@@ -178,6 +188,7 @@ public class MainWin extends JFrame {
         JButton newCliB  = new JButton(new ImageIcon("images/client-1.png"));
           newCliB.setActionCommand("Add new client");
           newCliB.setToolTipText("Add a new client");
+          setBorder(newCliB);
           toolbar.add(newCliB);
           newCliB.addActionListener(event -> onNewClientClick());
 
@@ -185,6 +196,7 @@ public class MainWin extends JFrame {
         JButton adoptB  = new JButton(new ImageIcon("images/noun-adopt-pet.png"));
           adoptB.setActionCommand("Adopt an animal");
           adoptB.setToolTipText("Adopt an animal from the shelter");
+          setBorder(adoptB);
           toolbar.add(adoptB);
           adoptB.addActionListener(event -> onAdoptAnimalClick());
 
@@ -309,24 +321,51 @@ public class MainWin extends JFrame {
         JLabel clientTag = new JLabel("<HTML><br/>Client</HTML>");
         JComboBox<Animal> animals = new JComboBox<>();
         JComboBox<Client> clients = new JComboBox<>();
-        var it1 = shelter.animalListIterator();
-        var it2 = shelter.clientListIterator();
-
-        if (!it1.hasNext()) {
-            errorDialog("No animals available for adoption");
-            return;
-        }
-        if (!it2.hasNext()) {
-            errorDialog("Add a new client to adopt animals");
-            return;
-        }
+        final var it1 = shelter.animalListIterator();
+        final var it2 = shelter.clientListIterator();
 
         while(it1.hasNext()) animals.addItem(it1.next());
         while(it2.hasNext()) clients.addItem(it2.next());
-        
+        final String newB = "New Bunny";
+        final String newC = "New Cat";
+        final String newD = "New Dog";
+
+        JButton addcli    = new JButton("New Client");
+        final JLabel brk = new JLabel("<html><br/></html>");
+
+        addcli.addActionListener(event -> {
+            onNewClientClick();
+
+            clients.removeAllItems();
+            var clientIt = shelter.clientListIterator();
+            while (clientIt.hasNext()) clients.addItem(clientIt.next());
+        });
+
+
+        JComboBox<String> buttons = new JComboBox<>(new String[] {newD, newC, newB});
+        buttons.addActionListener(event -> {
+            JComboBox source = (JComboBox) event.getSource();
+            String sel = (String) source.getSelectedItem();
+
+            source.hidePopup();
+            if (newB.equals(sel)) onNewBunnyClick();
+            else if (newC.equals(sel)) onNewCatClick();
+            else if (newD.equals(sel)) onNewDogClick();
+
+            animals.removeAllItems();
+            var animIt = shelter.animalListIterator();
+            while (animIt.hasNext()) animals.addItem(animIt.next());
+        });
+
+        JPanel animPane = new JPanel();
+        animPane.add(brk);
+        animPane.add(buttons);
+        animPane.add(Box.createHorizontalStrut(5));
+        animPane.add(addcli);
+
         Object[] objects = { 
-            animalTag, animals,
-            clientTag, clients
+            animalTag, animals, clientTag, 
+            clients, animPane
         };
         int button = JOptionPane.showConfirmDialog( 
             this, objects,

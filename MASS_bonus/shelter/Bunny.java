@@ -23,7 +23,7 @@ public class Bunny extends Animal{
     @Override
     public void save(BufferedWriter bw) throws IOException{
         super.save(bw);
-        bw.write("" + breed.name() + '\n');
+        bw.write(breed.name() + '\n');
     }
     @Override
     public void create(Object breed, String name, Gender gender, int age) {
@@ -36,7 +36,7 @@ public class Bunny extends Animal{
     }
     @Override
     public String toString(){
-        return super.toString() + "bunny" + ")\n";
+        return super.toString() + " " + breed + " " + "bunny" + ")";
     }
     @Override
     public boolean equals(Object obj) {
@@ -44,7 +44,8 @@ public class Bunny extends Animal{
         if (obj == null || this.getClass() != obj.getClass()) return false;
         
         Bunny check = (Bunny) obj;
-        return super.equals(obj) && breed == check.breed;
+        return name.equals(check.name) && age == check.age 
+            && gender == check.gender && breed == check.breed;
     }
     @Override
     public int hashCode() {

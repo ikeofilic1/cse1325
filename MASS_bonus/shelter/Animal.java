@@ -32,15 +32,6 @@ public abstract class Animal {
 
 	@Override
 	public String toString() {
-		return name +" ("+ age +" year old "+gender+" "+breed()+" ";
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		Animal check = (Animal) obj;
-		return name.equals(check.name) && 
-		age == check.age && gender == check.gender; 
+		return name +" ("+ age +" year old "+gender;
 	}
 }
-
-//move tostring breed to subclass

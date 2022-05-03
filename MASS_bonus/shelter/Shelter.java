@@ -78,7 +78,7 @@ public class Shelter {
 	}
 	
 	public void addAnimal(Animal animal) { 
-		if (animals.contains(animal))
+		if (animals.contains(animal) || adoptions.containsKey(animal))
 			throw new IllegalArgumentException("" + animal + "is already in the shelter");
 		animals.add(animal);
 	}
@@ -93,6 +93,10 @@ public class Shelter {
 	public ListIterator<Client> clientListIterator() { return clients.listIterator();}
 
 	public void adopt(Animal animal, Client client) {
+		if (animals.isEmpty())
+			throw new IllegalArgumentException("No animals available for adoption. Add a new animal first");
+		if (clients.isEmpty())
+			throw new IllegalArgumentException("Add a client to adopt animals");
 		if(adoptions.containsKey(animal)) 
             throw new IllegalArgumentException("Already adopted: " + animal);
         
@@ -108,21 +112,17 @@ public class Shelter {
 	public String clientsToString() {
 		StringBuilder toString = new StringBuilder();
 		for (Client c: clients) {
-			toString.append(c.toString());
+			toString.append(c.toString() + "\n");
 		}
 		return toString.toString();
 	}
 
 	public String adoptionsToString() {
 		StringBuilder toString = new StringBuilder();
-		Iterator<Animal> it = adoptedAnimalIterator();
-
-		while(it.hasNext()) {
-			Animal a = it.next();
-			Client c = getAdoptedClient(a);
-			
-			toString.append(a.toString().replaceAll("\n", " "));
-			toString.append("to " + c.toString());
+		
+		for(Animal a : adoptions.keySet()) {			
+			toString.append(a.toString());
+			toString.append(" to " + adoptions.get(a) + "\n");
 		}
 		return toString.toString();
 	}
@@ -131,7 +131,7 @@ public class Shelter {
 	public String toString(){
 		StringBuilder toString = new StringBuilder();
 		for (Animal a: animals) {
-			toString.append(a.toString());
+			toString.append(a.toString() + "\n");
 		}
 		return toString.toString();
 	}

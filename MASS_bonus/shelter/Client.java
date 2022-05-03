@@ -28,13 +28,12 @@ public class Client {
 
     @Override
     public String toString(){
-    	return name + " (" + phone + ")\n";
+    	return name + " (" + phone + ")";
     }
 }
 
 //add regex for phone
 //invalid phone format
-//check prof code (especially shelter)
 
 /*for prof*/
 //not checking null //checking for errors even though your implementation will never have that

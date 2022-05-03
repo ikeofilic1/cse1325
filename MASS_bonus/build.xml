@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Polygons" default="build">
+<project name="Mav's Animal Shelter Software" default="build">
   <presetdef name="javac">
     <javac includeantruntime="false" />
   </presetdef>

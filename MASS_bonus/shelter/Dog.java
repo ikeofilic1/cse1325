@@ -19,7 +19,7 @@ public class Dog extends Animal {
 	@Override
 	public String family() { return "dog";}
 	@Override
-	public String breed() { return ""+breed;}
+	public String breed() { return breed.name();}
 	@Override
 	public void save(BufferedWriter bw) throws IOException{
 		super.save(bw);
@@ -36,14 +36,16 @@ public class Dog extends Animal {
 	}
 	@Override
 	public String toString(){
-		return super.toString() + (age < 2 ?"pup":"dog") + ")\n";
+		return super.toString() + " " + breed + " " + (age < 2 ?"pup":"dog") + ")";
 	}
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) return true;
 		if (obj == null || this.getClass() != obj.getClass()) return false;
 		Dog check = (Dog) obj;
-		return breed == check.breed;
+
+		return name.equals(check.name) && age == check.age 
+			&& gender == check.gender && breed == check.breed;
 	}
 	@Override
 	public int hashCode() {
