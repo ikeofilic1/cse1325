@@ -60,8 +60,8 @@ public class FindMinHash {
                 while (true) {
                     long start = getPacket(maxHashes);
                     if (start == -1) break;
-                    long step = (maxHashes < start + 100) ? 
-                                maxHashes - start - 1: 99;
+                    long step = (maxHashes < start + PACKET_SIZE) ? 
+                                maxHashes - start - 1: PACKET_SIZE;
                     this.search(start, step);
                 }                
             });
@@ -83,7 +83,8 @@ public class FindMinHash {
     }
 
     public synchronized long getPacket(final long maxHashes) {
-        index += 100;
+        index += PACKET_SIZE;
+        //0-indexed
         if (index >= maxHashes) return -1;
 
         return index;
@@ -151,7 +152,8 @@ public class FindMinHash {
         //f.findMinHashPool(numThreads, maxHashes);
         f.findMinHashSlice(numThreads, maxHashes);      
     }
-    private long index = -100l; 
+    private long PACKET_SIZE = 100;
+    private long index = -PACKET_SIZE;
     private WordWrapper bestWord = new WordWrapper();
     private final ArrayList<String> wordList= new ArrayList<>();
 }
