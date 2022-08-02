@@ -52,16 +52,17 @@ public class FindMinHash {
                          + String.format("%,d", bestWord.hashCode()));
     }
 
-    public void findMinHashPool(int numThreads, long maxHashes) {
+    public void findMinHashPool(int numThreads, long maxHashes, long packetSize) {
         Thread[] threads = new Thread[numThreads];
+        this->poolIndex = -packetSize; //little hack cuz of my incompetence
 
         for (int i = 0; i < numThreads; ++i) {
             threads[i] = new Thread(() -> {
                 while (true) {
-                    long start = getPacket(maxHashes);
+                    long start = getPacket(maxHashes, packetSize);
                     if (start == -1) break;
-                    long step = (maxHashes < start + PACKET_SIZE) ? 
-                                maxHashes - start - 1: PACKET_SIZE;
+                    long step = (maxHashes < start + packetSize) ? 
+                                maxHashes - start: packetSize;
                     this.search(start, step);
                 }                
             });
@@ -82,12 +83,12 @@ public class FindMinHash {
 
     }
 
-    public synchronized long getPacket(final long maxHashes) {
-        index += PACKET_SIZE;
+    public synchronized long getPacket(final long maxHashes, final packetSize) {
+        poolIndex += packetSize;
         //0-indexed
-        if (index >= maxHashes) return -1;
+        if (poolIndex >= maxHashes) return -1;
 
-        return index;
+        return poolIndex;
     }
     
     // This constructor loads the word list needed by class WordWrapper
@@ -102,9 +103,9 @@ public class FindMinHash {
     
     // This method searches for smaller hashCodes from index start to start+number
     public void search(long start, long number) {
-        System.out.printf("%-11s (ID %3s) searching %,15d to %,15d\n",
+        System.out.printf("%-11s (ID %3s) searching %,15d to %,15d inclusive\n",
            Thread.currentThread().getName(), Thread.currentThread().getId(),
-           start, start + number);
+           start, start + number - 1);
         int word0 = (int) (start % wordList.size());
         int word1 = (int) ((start / wordList.size()) % wordList.size());
         
@@ -149,11 +150,11 @@ public class FindMinHash {
             System.exit(-2);            
         }
 
-        //f.findMinHashPool(numThreads, maxHashes);
+        final long PACKET_SIZE = 100;
+        //f.findMinHashPool(numThreads, maxHashes, PACKET_SIZE);
         f.findMinHashSlice(numThreads, maxHashes);      
     }
-    private long PACKET_SIZE = 100;
-    private long index = -PACKET_SIZE;
+    private long poolIndex;
     private WordWrapper bestWord = new WordWrapper();
     private final ArrayList<String> wordList= new ArrayList<>();
 }
